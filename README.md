@@ -10,6 +10,7 @@
 - **UruCoins del server**: `.diario` (con racha), `.saldo`, `.top`, `.regalar <jugador> <monto>`. Es una economía aparte de la de WhatsApp.
 - **Herramientas**: `.clima <lugar>` y `.rae <palabra>`, las mismas de ClaudIA.
 - **Punto de aparición exacto**: los que entran por primera vez o mueren sin cama aparecen justo en el `/setworldspawn`. Paper corrige la altura con el mapa de alturas, y en los mapas de aventura eso a veces los tira al vacío.
+- **Lobby con selector de mapas**: todos entran a un lobby y eligen mapa pisando una placa de presión; `/lobby` los trae de vuelta. Al cambiar de mapa se les vacía el inventario y quedan en modo aventura. Los mapas y las placas se configuran en `plugins/ClaudiaMC/config.yml`.
 - **Repone bloques**: en `plugins/ClaudiaMC/config.yml` se listan bloques que tiene que volver a poner si desaparecen (por ejemplo, el botón de arranque que un mapa borra al apretarlo). Los revisa cada 15 segundos.
 - `.menu` muestra todo.
 

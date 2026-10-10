@@ -49,11 +49,17 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
     private static final Key TEMA = Key.key("claudia", "tema");
     // El paquete con el tema que está sonando, para mandárselo también a los que entran después.
     private ResourcePackInfo packActual;
+    private final Lobby lobby = new Lobby(this);
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
+        lobby.cargar();
+        if (lobby.activo()) {
+            getServer().getPluginManager().registerEvents(lobby, this);
+            getCommand("lobby").setExecutor(lobby);
+        }
         Bukkit.getScheduler().runTaskTimer(this, this::reponerBloques, 300L, 300L);
         // Lo que Claudia dice sola (la respuesta de la IA, el fin de una trivia) se busca cada 2 segundos.
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> pedir(HttpRequest.newBuilder(URI.create(BASE + "/pendientes")).GET()), 40L, 40L);
@@ -104,7 +110,7 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
     }
 
     // Paper corrige la altura del spawn con el mapa de alturas, que en mapas de aventura viene mal y los tira al vacío.
-    // Los nuevos y los que mueren sin cama aparecen en el punto exacto de /setworldspawn.
+    // Sin lobby: los nuevos y los que mueren sin cama aparecen en el punto exacto de /setworldspawn.
     private static Location spawnExacto() {
         Location l = Bukkit.getWorlds().get(0).getSpawnLocation();
         return new Location(l.getWorld(), l.getBlockX() + 0.5, l.getBlockY(), l.getBlockZ() + 0.5, l.getYaw(), l.getPitch());
@@ -112,11 +118,12 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
 
     @EventHandler
     public void alAparecer(AsyncPlayerSpawnLocationEvent e) {
-        if (e.isNewPlayer()) e.setSpawnLocation(spawnExacto());
+        if (!lobby.activo() && e.isNewPlayer()) e.setSpawnLocation(spawnExacto());
     }
 
     @EventHandler
     public void alRevivir(PlayerRespawnEvent e) {
+        if (lobby.activo()) return; // con lobby, lo maneja Lobby
         if (!e.isBedSpawn() && !e.isAnchorSpawn()) e.setRespawnLocation(spawnExacto());
     }
 

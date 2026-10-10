@@ -5,3 +5,16 @@ reponer: []
 # Ejemplo:
 # reponer:
 #   - "-457 42 -195 minecraft:stone_button[face=wall,facing=south]"
+
+# Lobby con selector de mundos (opcional: sin la sección "lobby" no se usa).
+# Todos entran al lobby; cada placa de presión del lobby lleva al inicio de un mundo. /lobby vuelve.
+# lobby:
+#   carpeta: lobby              # se crea vacío la primera vez
+#   spawn: "0.5 65 0.5 180"     # x y z yaw
+# mundos:
+#   tentrials:
+#     nombre: Ten Trials
+#     carpeta: ten-trials
+#     spawn: "-458.5 41 -189.5 180"
+# placas:                       # "x y z mundo", coordenadas de la placa en el lobby
+#   - "-3 65 -6 tentrials"
