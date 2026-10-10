@@ -1,0 +1,13 @@
+{
+  "geminiApiKey": "",
+  "groqApiKey": "",
+  "openrouterApiKey": "",
+  "nvidiaApiKey": "",
+  "cerebrasApiKey": "",
+  "carpetaServer": "/home/usuario/mc-server",
+  "packUrlBase": "",
+  "puertoPacks": 34964,
+  "dueno": "Franco",
+  "duenoEnJuego": "GauchitoDEV",
+  "mapa": "Ten Trials, 10 niveles de parkour, tridentes y puzzles con palancas"
+}

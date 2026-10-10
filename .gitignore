@@ -1,0 +1,5 @@
+config.json
+datos/
+plugin/build/
+*.jar
+node_modules/

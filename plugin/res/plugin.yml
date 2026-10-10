@@ -1,0 +1,6 @@
+name: ClaudiaMC
+version: 0.3.0
+main: uy.gauchito.claudiamc.ClaudiaMC
+api-version: '26.2'
+author: gauchitodev
+description: ClaudIA en el chat del server (habla con servicio/index.js en 127.0.0.1:8791)
