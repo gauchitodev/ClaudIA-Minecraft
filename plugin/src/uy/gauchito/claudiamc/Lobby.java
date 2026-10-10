@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.generator.ChunkGenerator;
@@ -25,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 // Lobby con selector de mundos: todos entran al lobby, se paran en la placa del mapa que quieren y van a su inicio.
 // /lobby los trae de vuelta. Los mapas y las placas salen de config.yml (secciones "lobby", "mundos" y "placas").
@@ -37,6 +39,7 @@ final class Lobby implements Listener, CommandExecutor {
     private final JavaPlugin plugin;
     private final Map<String, Mundo> mundos = new HashMap<>();
     private final Map<String, String> placas = new HashMap<>(); // "x y z" en el lobby -> id del mundo
+    private final Map<UUID, World> murioEn = new HashMap<>(); // al reaparecer el server ya no lo sabe bien
     private String carpetaLobby;
     private String spawnLobby;
 
@@ -110,9 +113,15 @@ final class Lobby implements Listener, CommandExecutor {
     }
 
     @EventHandler
+    public void alMorir(PlayerDeathEvent e) {
+        murioEn.put(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
+    }
+
+    @EventHandler
     public void alRevivir(PlayerRespawnEvent e) {
+        World w = murioEn.remove(e.getPlayer().getUniqueId());
         if (e.isBedSpawn() || e.isAnchorSpawn()) return;
-        World w = e.getPlayer().getWorld();
+        if (w == null) w = e.getPlayer().getWorld();
         for (Mundo m : mundos.values()) {
             if (Bukkit.getWorld(m.carpeta()) == w) {
                 e.setRespawnLocation(spawnDe(m)); // reaparece en el inicio del mapa en el que está
