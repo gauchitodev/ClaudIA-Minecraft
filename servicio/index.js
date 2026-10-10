@@ -10,6 +10,7 @@ import { textoClimaDe } from "../../claudia/lib/clima.js";
 import { definir } from "../../claudia/lib/rae.js";
 import * as eco from "./economia.js";
 import { conseguirTema } from "./musica.js";
+import { hablar } from "./voz.js";
 import { armarPack, PACK } from "./pack.js";
 import { createReadStream } from "node:fs";
 
@@ -44,12 +45,13 @@ let ultimaIA = 0;
 let pensando = false;
 
 const CONTEXTO_MC = (jugadores) => `Ahora NO estás en WhatsApp: estás en el chat de un server de Minecraft de ${config.dueno}${config.duenoEnJuego ? ` (en el juego es ${config.duenoEnJuego})` : ""}, jugando con sus amigos.${config.mapa ? ` El mapa es ${config.mapa}.` : ""} Conectados: ${jugadores.join(", ") || "nadie más"}.
-Reglas extra para este chat: respondé MUY corto (una frase, dos como mucho), sin markdown, sin asteriscos, sin emojis, sin links. No tenés cuerpo en el mundo: sos solo una voz en el chat. Tus comandos acá son: .play <tema>, .trivia, .clima <lugar>, .rae <palabra>, .saldo, .diario, .top, .regalar <jugador> <monto>, .recordá <dato>, .menu. No inventes otros.`;
+Reglas extra para este chat: respondé MUY corto (una frase, dos como mucho), sin markdown, sin asteriscos, sin emojis, sin links. Tenés cuerpo en el mundo: andás al lado de quien te habla, y lo que decís se escucha con tu voz y aparece en un globito arriba tuyo. Tus comandos acá son: .play <tema>, .trivia, .clima <lugar>, .rae <palabra>, .saldo, .diario, .top, .regalar <jugador> <monto>, .recordá <dato>, .menu. No inventes otros.`;
 
 async function charlar(jugador, texto, online) {
   if (pensando || Date.now() - ultimaIA < AJUSTES.COOLDOWN_IA_MS) return;
   pensando = true;
   ultimaIA = Date.now();
+  pendientes.push({ tipo: "atencion", jugador }); // su cuerpo se acerca mientras piensa
   try {
     const memoria = eco.memoriaDe(jugador);
     const prompt = [
@@ -61,8 +63,12 @@ async function charlar(jugador, texto, online) {
     let r = await preguntarGemini(prompt);
     if (!r.ok) r = await preguntarRespaldo(prompt);
     if (r.ok) {
-      decir(r.texto);
-      historial.push(`ClaudIA: ${paraMinecraft(r.texto)}`);
+      const dicho = paraMinecraft(r.texto);
+      decir(dicho);
+      pendientes.push({ tipo: "globo", texto: dicho });
+      historial.push(`ClaudIA: ${dicho}`);
+      // La voz llega unos segundos después del texto: no se espera por ella.
+      hablar(dicho).then((archivo) => archivo && pendientes.push({ tipo: "voz", archivo }));
     } else {
       console.error("[ia] no respondió ningún modelo");
     }

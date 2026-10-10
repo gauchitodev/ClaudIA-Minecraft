@@ -50,6 +50,8 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
     // El paquete con el tema que está sonando, para mandárselo también a los que entran después.
     private ResourcePackInfo packActual;
     private final Lobby lobby = new Lobby(this);
+    private Cuerpo cuerpo;
+    private Voz voz;
 
     @Override
     public void onEnable() {
@@ -60,9 +62,22 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
             getServer().getPluginManager().registerEvents(lobby, this);
             getCommand("lobby").setExecutor(lobby);
         }
+        cuerpo = new Cuerpo(this, () -> lobby.activo() ? lobby.spawnDelLobby() : spawnExacto());
+        cuerpo.aparecer();
+        try {
+            voz = Voz.conectar(this, cuerpo::entidad);
+        } catch (NoClassDefFoundError sinVoicechat) {
+            voz = null; // sin Simple Voice Chat, Claudia habla solo por texto
+        }
+        getLogger().info(voz != null ? "Claudia tiene cuerpo y voz." : "Claudia tiene cuerpo (sin voz: falta Simple Voice Chat).");
         Bukkit.getScheduler().runTaskTimer(this, this::reponerBloques, 300L, 300L);
         // Lo que Claudia dice sola (la respuesta de la IA, el fin de una trivia) se busca cada 2 segundos.
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> pedir(HttpRequest.newBuilder(URI.create(BASE + "/pendientes")).GET()), 40L, 40L);
+    }
+
+    @Override
+    public void onDisable() {
+        if (cuerpo != null) cuerpo.desaparecer();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -185,6 +200,13 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
             case "parar" -> {
                 packActual = null;
                 for (Player o : Bukkit.getOnlinePlayers()) o.stopSound(SoundStop.named(TEMA));
+            }
+            case "atencion" -> {
+                if (p != null) cuerpo.atender(p);
+            }
+            case "globo" -> cuerpo.decir(texto);
+            case "voz" -> {
+                if (voz != null) voz.decir(a.get("archivo").getAsString());
             }
             default -> getLogger().warning("Acción desconocida: " + tipo);
         }

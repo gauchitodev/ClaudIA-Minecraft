@@ -1,7 +1,8 @@
 name: ClaudiaMC
-version: 0.6.1
+version: 0.7.0
 main: uy.gauchito.claudiamc.ClaudiaMC
 api-version: '26.2'
+softdepend: [voicechat]
 author: gauchitodev
 description: ClaudIA en el chat del server (habla con servicio/index.js en 127.0.0.1:8791)
 commands:
