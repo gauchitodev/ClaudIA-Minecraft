@@ -19,3 +19,8 @@ reponer: []
 #     dificultad: peaceful      # opcional: peaceful, easy, normal o hard, solo para este mapa
 # placas:                       # "x y z mundo", coordenadas de la placa en el lobby
 #   - "-3 65 -6 tentrials"
+
+# Skin de Claudia (cara de la foto de perfil + cuerpo de Bender), firmada con MineSkin. La genera skin/hacer-skin.py.
+skin:
+  value: "ewogICJ0aW1lc3RhbXAiIDogMTc5MTY1NzYxMjY4MywKICAicHJvZmlsZUlkIiA6ICIxNzNkZTMxZjIzODE0YzY1YjVmZWMyMTAyYmIxZjExNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJCSVROVyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82YTQ2NjA4ODM4NzMwNmMxYjZlMmVmZDQwMjdjNDAxZGE1NmU3ZmRkMjgyY2FkNTY3YjMxMTFhMTZhZGUwNTg3IgogICAgfQogIH0KfQ=="
+  signature: "VwdN7km6PZCpfjK9VbRAe5v4Ron/Vj5wcVhZasRzEl8FxCiLMqGI0eZ6Mjau1EfBVfWqtkp1vgzCMUm88KkSZR6g3Bw7qP5vymqEq9oTWUdufRYMK+A1taDXn4gmzTo8eIe/fjlThbke4HsprR0UoBf8rmipgg/HDHWQawYyDlTEkZecUQRZSPxMIuJklA/B4swcW9UaSQMYGRUoMtZuXXdKqiv5fMIS+Lcx16TT0obZEtKR1fZaxRrTcFSHCzHxJGvBcVbDW6UtGXv5NTG8THKuX3BjGSapst1S6aH0O7vgNOD0+LKJOwddxnOFOQB3++1TzVx6EugTeCn6LEI5Pv0nevkpbizUaUEqzJC3L9PR9ntIHFbMsDzgXDAHfeQmpE3xiYDn4lswSgoNWfZ+TPO+Fs4aJ203VjXBrRhUMo/PVc3+uhVPMXd+z0kw9REibf1MwwmMS+KROaOYpGMiJ2G6e0HqtRxywUlZixQWU8bDSYeX3Vpx7sFlUxpeK9596Q4J1RRFbdl3EYP/psXFrE2k/6gETKnuo4zgoiOC6UP1sc5n7Q/YtYID29sY/Jh92CudQLS/CcQPzqnjyA9ulvrGvkzEFXozLgBgQ7iRbKBVxynYwmuiz5Z6M+6l/aLE2c8VmiJTHnp0k5gNCOHZRveI7Cmd8QG3FeFZf1B6/iE="

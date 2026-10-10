@@ -4,7 +4,7 @@
 
 ## ¿Qué hace?
 
-- **Cuerpo y voz**: Claudia está en el mundo como un maniquí con su nombre. Cuando la nombran, camina hasta quien le habló y lo acompaña por los mapas; lo que dice aparece en un globito arriba de su cabeza y **se escucha con la misma voz que en WhatsApp**, saliendo de su cuerpo (eso último con el mod Simple Voice Chat; sin el mod se ve el globito y el chat). Si nadie le habla en 5 minutos, vuelve al lobby.
+- **Cuerpo y voz**: Claudia está en el mundo como un maniquí con su nombre. Cuando la nombran, camina hasta quien le habló y lo acompaña por los mapas; lo que dice aparece en un globito arriba de su cabeza y **se escucha con la misma voz que en WhatsApp**, saliendo de su cuerpo (eso último con el mod Simple Voice Chat; sin el mod se ve el globito y el chat). Si nadie le habla en 5 minutos, vuelve al lobby. Su skin es la cara de la foto de perfil de ClaudIA sobre el cuerpo de Bender (`skin/hacer-skin.py`).
 - **Charla con IA**: si la nombran en el chat ("claudia, ¿qué onda?"), contesta con la personalidad de ClaudIA: Gemini con los mismos respaldos (Groq, OpenRouter, NVIDIA, Cerebras). Sabe quién está conectado, lee los últimos mensajes y se acuerda de lo que cada uno le pide con `.recordá`.
 - **Música para todos, sin mods**: `.play <tema o link>` busca con yt-dlp en YouTube (y en SoundCloud si no sale), arma un paquete de recursos con ese tema y el server se lo manda a los jugadores. Al aceptarlo, suena por el canal de discos del juego. `.parar` la corta.
 - **Trivia**: `.trivia` saca una pregunta del banco de ClaudIA (292 preguntas); el primero que acierta gana UruCoins.

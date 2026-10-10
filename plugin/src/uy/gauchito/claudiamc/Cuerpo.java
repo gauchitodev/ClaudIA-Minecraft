@@ -1,5 +1,7 @@
 package uy.gauchito.claudiamc;
 
+import com.destroystokyo.paper.profile.ProfileProperty;
+import io.papermc.paper.datacomponent.item.ResolvableProfile;
 import io.papermc.paper.entity.TeleportFlag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -53,6 +55,9 @@ final class Cuerpo {
             m.customName(Component.text("ClaudIA", NamedTextColor.LIGHT_PURPLE));
             m.setCustomNameVisible(true);
             m.setDescription(Component.text("decile \"claudia\" en el chat", NamedTextColor.GRAY));
+            String valor = plugin.getConfig().getString("skin.value"), firma = plugin.getConfig().getString("skin.signature");
+            if (valor != null && firma != null)
+                m.setProfile(ResolvableProfile.resolvableProfile().addProperty(new ProfileProperty("textures", valor, firma)).build());
         });
         globo = l.getWorld().spawn(l, TextDisplay.class, t -> {
             t.setPersistent(false);
