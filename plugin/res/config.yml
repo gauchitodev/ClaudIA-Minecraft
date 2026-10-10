@@ -1,0 +1,7 @@
+# Bloques que Claudia repone sola si desaparecen (por ejemplo, el botón de arranque de un mapa de aventura,
+# que el mapa borra al apretarlo). Formato: "x y z bloque", con el bloque como en /setblock.
+# Se revisa cada 15 segundos, así el mapa tiene tiempo de hacer lo suyo antes de que vuelva.
+reponer: []
+# Ejemplo:
+# reponer:
+#   - "-457 42 -195 minecraft:stone_button[face=wall,facing=south]"

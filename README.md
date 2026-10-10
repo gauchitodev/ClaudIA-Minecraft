@@ -10,6 +10,7 @@
 - **UruCoins del server**: `.diario` (con racha), `.saldo`, `.top`, `.regalar <jugador> <monto>`. Es una economía aparte de la de WhatsApp.
 - **Herramientas**: `.clima <lugar>` y `.rae <palabra>`, las mismas de ClaudIA.
 - **Punto de aparición exacto**: los que entran por primera vez o mueren sin cama aparecen justo en el `/setworldspawn`. Paper corrige la altura con el mapa de alturas, y en los mapas de aventura eso a veces los tira al vacío.
+- **Repone bloques**: en `plugins/ClaudiaMC/config.yml` se listan bloques que tiene que volver a poner si desaparecen (por ejemplo, el botón de arranque que un mapa borra al apretarlo). Los revisa cada 15 segundos.
 - `.menu` muestra todo.
 
 ## Cómo funciona
@@ -73,6 +74,8 @@ node servicio/index.js
 ```
 
 Si el servicio está apagado el server anda igual: Claudia simplemente no contesta.
+
+**Mapas de aventura:** activá `enable-command-block=true` en `server.properties`, porque casi todos funcionan con bloques de comandos. Fijá el inicio con `/setworldspawn` en el lobby del mapa.
 
 ## Notas
 

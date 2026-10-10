@@ -52,7 +52,9 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
+        Bukkit.getScheduler().runTaskTimer(this, this::reponerBloques, 300L, 300L);
         // Lo que Claudia dice sola (la respuesta de la IA, el fin de una trivia) se busca cada 2 segundos.
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> pedir(HttpRequest.newBuilder(URI.create(BASE + "/pendientes")).GET()), 40L, 40L);
     }
@@ -82,6 +84,23 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
         if (e.getStatus() != PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) return;
         e.getPlayer().stopSound(SoundStop.named(TEMA));
         e.getPlayer().playSound(Sound.sound(TEMA, Sound.Source.RECORD, 1f, 1f), Sound.Emitter.self());
+    }
+
+    // Vuelve a poner los bloques de config.yml que no estén (lo que haya en su lugar que no sea aire, no se toca).
+    private void reponerBloques() {
+        for (String linea : getConfig().getStringList("reponer")) {
+            String[] p = linea.trim().split("\\s+", 4);
+            try {
+                int x = Integer.parseInt(p[0]), y = Integer.parseInt(p[1]), z = Integer.parseInt(p[2]);
+                org.bukkit.World w = Bukkit.getWorlds().get(0);
+                if (!w.isChunkLoaded(x >> 4, z >> 4)) continue; // sin nadie cerca no hace falta (y no carga el chunk)
+                org.bukkit.block.Block b = w.getBlockAt(x, y, z);
+                if (!b.getType().isAir()) continue;
+                b.setBlockData(Bukkit.createBlockData(p[3]));
+            } catch (Exception ex) {
+                getLogger().warning("Línea mal escrita en reponer: " + linea);
+            }
+        }
     }
 
     // Paper corrige la altura del spawn con el mapa de alturas, que en mapas de aventura viene mal y los tira al vacío.
