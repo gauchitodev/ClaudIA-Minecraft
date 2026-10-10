@@ -4,6 +4,7 @@ import io.papermc.paper.event.player.AsyncPlayerSpawnLocationEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -62,7 +63,11 @@ final class Lobby implements Listener, CommandExecutor {
                 ConfigurationSection m = ms.getConfigurationSection(id);
                 Mundo mundo = new Mundo(id, m.getString("nombre", id), m.getString("carpeta", id), m.getString("spawn"));
                 mundos.put(id, mundo);
-                if (Bukkit.getWorld(mundo.carpeta()) == null) new WorldCreator(mundo.carpeta()).createWorld();
+                World w = Bukkit.getWorld(mundo.carpeta());
+                if (w == null) w = new WorldCreator(mundo.carpeta()).createWorld();
+                // Dificultad propia del mapa (por ejemplo, uno de zombis en un server que en general es pacífico).
+                String dif = m.getString("dificultad");
+                if (w != null && dif != null) w.setDifficulty(Difficulty.valueOf(dif.toUpperCase()));
             }
         }
         for (String linea : plugin.getConfig().getStringList("placas")) {

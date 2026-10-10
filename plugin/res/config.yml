@@ -16,5 +16,6 @@ reponer: []
 #     nombre: Ten Trials
 #     carpeta: ten-trials
 #     spawn: "-458.5 41 -189.5 180"
+#     dificultad: peaceful      # opcional: peaceful, easy, normal o hard, solo para este mapa
 # placas:                       # "x y z mundo", coordenadas de la placa en el lobby
 #   - "-3 65 -6 tentrials"
