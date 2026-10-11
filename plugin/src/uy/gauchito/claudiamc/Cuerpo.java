@@ -68,6 +68,13 @@ final class Cuerpo {
             t.text(Component.empty());
         });
         cuerpo.addPassenger(globo);
+        // Que se pueda atravesar: setCollidable solo evita que ELLA choque; para que los demás no choquen con ella
+        // hace falta un equipo con la colisión apagada.
+        org.bukkit.scoreboard.Scoreboard sb = Bukkit.getScoreboardManager().getMainScoreboard();
+        org.bukkit.scoreboard.Team equipo = sb.getTeam("claudia_fantasma");
+        if (equipo == null) equipo = sb.registerNewTeam("claudia_fantasma");
+        equipo.setOption(org.bukkit.scoreboard.Team.Option.COLLISION_RULE, org.bukkit.scoreboard.Team.OptionStatus.NEVER);
+        equipo.addEntity(cuerpo);
         Bukkit.getScheduler().runTaskTimer(plugin, this::moverse, 2L, 2L);
     }
 
@@ -114,10 +121,20 @@ final class Cuerpo {
             llevar(el.clone().subtract(atras.normalize().multiply(CERCA)));
             return;
         }
-        Vector hacia = el.toVector().subtract(yo.toVector());
+        // En el lobby camina a tu lado; en los mapas flota a un costado y un poco arriba, fuera del recorrido.
+        Location meta = el.clone();
+        boolean enMapa = !el.getWorld().equals(casa.get().getWorld());
+        if (enMapa) {
+            Vector costado = el.getDirection().setY(0);
+            if (costado.lengthSquared() < 1e-4) costado = new Vector(1, 0, 0);
+            costado = new Vector(-costado.getZ(), 0, costado.getX()).normalize().multiply(2);
+            meta.add(costado).add(0, 1.5, 0);
+        }
+        Vector hacia = meta.toVector().subtract(yo.toVector());
         Location nueva = yo.clone();
         double dist = hacia.length();
-        if (dist > CERCA) nueva.add(hacia.clone().normalize().multiply(Math.min(PASO * 2, dist - CERCA)));
+        double quieta = enMapa ? 0.3 : CERCA;
+        if (dist > quieta) nueva.add(hacia.clone().normalize().multiply(Math.min(PASO * 2, dist - quieta)));
         nueva.setDirection(el.toVector().subtract(nueva.toVector())); // siempre mirándolo
         llevar(nueva);
     }
