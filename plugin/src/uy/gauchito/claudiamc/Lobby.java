@@ -122,6 +122,13 @@ final class Lobby implements Listener, CommandExecutor {
         World w = murioEn.remove(e.getPlayer().getUniqueId());
         if (e.isBedSpawn() || e.isAnchorSpawn()) return;
         if (w == null) w = e.getPlayer().getWorld();
+        // Checkpoints: los mapas guardan un punto de reaparición (/spawnpoint) a medida que avanzás. Si hay uno en el
+        // mapa donde moriste, se respeta; solo si no hay ninguno se vuelve al inicio del mapa.
+        Location checkpoint = e.getPlayer().getPotentialRespawnLocation();
+        if (checkpoint != null && checkpoint.getWorld() != null && checkpoint.getWorld().equals(w)) {
+            e.setRespawnLocation(checkpoint);
+            return;
+        }
         for (Mundo m : mundos.values()) {
             if (Bukkit.getWorld(m.carpeta()) == w) {
                 e.setRespawnLocation(spawnDe(m)); // reaparece en el inicio del mapa en el que está
