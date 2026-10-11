@@ -62,6 +62,12 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
             getServer().getPluginManager().registerEvents(lobby, this);
             getCommand("lobby").setExecutor(lobby);
         }
+        // Mapas de un jugador: sus bloques de comandos le caen a quien apretó el botón (ver Disparador).
+        java.util.Set<String> individuales = new java.util.HashSet<>();
+        org.bukkit.configuration.ConfigurationSection ms = getConfig().getConfigurationSection("mundos");
+        if (ms != null) for (String id : ms.getKeys(false))
+            if (ms.getBoolean(id + ".individual")) individuales.add(ms.getString(id + ".carpeta", id));
+        if (!individuales.isEmpty()) getServer().getPluginManager().registerEvents(new Disparador(individuales), this);
         cuerpo = new Cuerpo(this, () -> lobby.activo() ? lobby.spawnDelLobby() : spawnExacto());
         cuerpo.aparecer();
         try {

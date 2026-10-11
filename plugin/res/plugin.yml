@@ -1,5 +1,5 @@
 name: ClaudiaMC
-version: 0.7.3
+version: 0.8.0
 main: uy.gauchito.claudiamc.ClaudiaMC
 api-version: '26.2'
 softdepend: [voicechat]

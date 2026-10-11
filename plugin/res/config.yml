@@ -17,6 +17,7 @@ reponer: []
 #     carpeta: ten-trials
 #     spawn: "-458.5 41 -189.5 180"
 #     dificultad: peaceful      # opcional: peaceful, easy, normal o hard, solo para este mapa
+#     individual: true          # opcional: mapa de un jugador; sus bloques de comandos le caen a quien apretó el botón
 # placas:                       # "x y z mundo", coordenadas de la placa en el lobby
 #   - "-3 65 -6 tentrials"
 

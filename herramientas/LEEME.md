@@ -14,3 +14,8 @@ teletransporte a todos, que un checkpoint le cambie el punto de reaparición a t
        python3 arreglar-arroba-a.py minecraft:<dimensión> coop cmds.tsv > arreglo.txt         # @a → todos, pero solo los de ese mapa
 
 3. Pegar `arreglo.txt` línea por línea en la consola del server (hacé un respaldo del mundo antes).
+
+**Ojo con `@p` en mapas individuales:** elige al más cercano *al bloque de comandos*, que suele estar escondido lejos
+del botón. Para esos mapas poné `individual: true` en el mundo de `plugins/ClaudiaMC/config.yml`: el plugin anota quién
+apretó el botón, la palanca o la placa y le aplica a esa persona los `@a`/`@p` de los bloques que se ejecutan en los
+4 segundos siguientes.
