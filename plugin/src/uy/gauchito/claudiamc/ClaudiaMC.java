@@ -49,6 +49,7 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
     private static final Key TEMA = Key.key("claudia", "tema");
     // El paquete con el tema que está sonando, para mandárselo también a los que entran después.
     private ResourcePackInfo packActual;
+    private static final UUID PACK_MUSICA = UUID.fromString("c1a0d1a0-0000-4000-8000-00000000c1a0");
     private final Lobby lobby = new Lobby(this);
     private Cuerpo cuerpo;
     private Voz voz;
@@ -145,6 +146,7 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
     @EventHandler
     public void alRevivir(PlayerRespawnEvent e) {
         if (lobby.activo()) return; // con lobby, lo maneja Lobby
+        if (e.getPlayer().getPotentialRespawnLocation() != null) return; // el mapa le puso un punto: se respeta
         if (!e.isBedSpawn() && !e.isAnchorSpawn()) e.setRespawnLocation(spawnExacto());
     }
 
@@ -152,7 +154,7 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
         if (p.getName().startsWith(".")) return; // los de Bedrock (Geyser) no usan paquetes de Java
         p.sendResourcePacks(ResourcePackRequest.resourcePackRequest()
                 .packs(info)
-                .replace(true)
+                .replace(false)
                 .required(false)
                 .prompt(Component.text("Música de ClaudIA: aceptá para escuchar el tema", NamedTextColor.LIGHT_PURPLE)));
     }
@@ -199,7 +201,8 @@ public final class ClaudiaMC extends JavaPlugin implements Listener {
                 p.performCommand("cdisc create " + a.get("busqueda").getAsString());
             }
             case "musica" -> {
-                packActual = ResourcePackInfo.resourcePackInfo(UUID.fromString(a.get("id").getAsString()),
+                // Id fijo: el paquete de música nuevo reemplaza al anterior de música y se suma al del mapa.
+                packActual = ResourcePackInfo.resourcePackInfo(PACK_MUSICA,
                         URI.create(a.get("url").getAsString()), a.get("sha1").getAsString());
                 for (Player o : Bukkit.getOnlinePlayers()) mandarPack(o, packActual);
             }

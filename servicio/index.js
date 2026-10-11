@@ -219,9 +219,12 @@ http.createServer(async (req, res) => {
 
 // Los paquetes de música, para que los bajen los jugadores. Solo archivos <uuid>.zip de datos/packs.
 http.createServer((req, res) => {
+  // /<uuid>.zip: los temas de .play. /fijo/<nombre>.zip: el paquete propio del mapa (datos/packs-fijos), que va en
+  // resource-pack de server.properties.
   const m = req.url.match(/^\/([0-9a-f-]{36}\.zip)$/);
-  if (req.method !== "GET" || !m) return res.writeHead(404).end();
-  const ruta = path.join(PACK.CARPETA, m[1]);
+  const f = req.url.match(/^\/fijo\/([a-z0-9-]+\.zip)$/);
+  if (req.method !== "GET" || !(m || f)) return res.writeHead(404).end();
+  const ruta = m ? path.join(PACK.CARPETA, m[1]) : path.join(PACK.CARPETA, "..", "packs-fijos", f[1]);
   const flujo = createReadStream(ruta);
   flujo.on("open", () => res.writeHead(200, { "Content-Type": "application/zip" }));
   flujo.on("error", () => res.writeHead(404).end());

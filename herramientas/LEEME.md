@@ -19,3 +19,9 @@ teletransporte a todos, que un checkpoint le cambie el punto de reaparición a t
 del botón. Para esos mapas poné `individual: true` en el mundo de `plugins/ClaudiaMC/config.yml`: el plugin anota quién
 apretó el botón, la palanca o la placa y le aplica a esa persona los `@a`/`@p` de los bloques que se ejecutan en los
 4 segundos siguientes.
+
+## Mapas viejos en la 26.2
+
+`predicados-26.py <datapack>/data` actualiza los predicados de entidad de advancements y predicates al formato de la
+26.2 (claves con `minecraft:`). Si el server no arranca por `has_ender_dragon_fight`, agregalo (en `false`) a los
+`dimension_type` del datapack.
